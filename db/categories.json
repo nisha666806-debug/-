@@ -1,0 +1,82 @@
+[
+  {
+    "id": "popular",
+    "name": "Популярное",
+    "emoji": "🔥"
+  },
+  {
+    "id": "new",
+    "name": "Новинки",
+    "emoji": "✨"
+  },
+  {
+    "id": "sets",
+    "name": "Сеты",
+    "emoji": "🍱"
+  },
+  {
+    "id": "rolls",
+    "name": "Роллы",
+    "emoji": "🍣"
+  },
+  {
+    "id": "baked",
+    "name": "Запечённые роллы",
+    "emoji": "🔥"
+  },
+  {
+    "id": "tempura",
+    "name": "Темпура",
+    "emoji": "🍤"
+  },
+  {
+    "id": "sushi",
+    "name": "Суши",
+    "emoji": "🍣"
+  },
+  {
+    "id": "maki",
+    "name": "Маки",
+    "emoji": "🥢"
+  },
+  {
+    "id": "pizza",
+    "name": "Пицца",
+    "emoji": "🍕"
+  },
+  {
+    "id": "wok",
+    "name": "WOK",
+    "emoji": "🥡"
+  },
+  {
+    "id": "soups",
+    "name": "Супы",
+    "emoji": "🍜"
+  },
+  {
+    "id": "salads",
+    "name": "Салаты",
+    "emoji": "🥗"
+  },
+  {
+    "id": "snacks",
+    "name": "Закуски",
+    "emoji": "🍟"
+  },
+  {
+    "id": "desserts",
+    "name": "Десерты",
+    "emoji": "🍰"
+  },
+  {
+    "id": "drinks",
+    "name": "Напитки",
+    "emoji": "🥤"
+  },
+  {
+    "id": "sauces",
+    "name": "Соусы",
+    "emoji": "🥣"
+  }
+]

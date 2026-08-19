@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админ-панель · Суши Pizza Тайм</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231A1D1C'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%23E1472B'%3E寿%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+<div id="toastHost" class="toast-host"></div>
+
+<!-- ============== LOGIN ============== -->
+<div id="loginScreen" class="admin-login-screen">
+  <div class="admin-login-card">
+    <div class="logo-mark" style="margin:0 auto 14px;">寿</div>
+    <h1>Админ-панель</h1>
+    <p>Суши Pizza Тайм</p>
+    <div class="field">
+      <label>Пароль</label>
+      <input type="password" id="adminPassword" placeholder="••••••••">
+    </div>
+    <div id="loginError" class="field-error"></div>
+    <button class="btn btn-primary btn-lg btn-block" id="loginBtn">Войти</button>
+  </div>
+</div>
+
+<!-- ============== DASHBOARD ============== -->
+<div id="dashboard" class="admin-dashboard" hidden>
+  <header class="admin-header">
+    <div class="logo"><span class="logo-mark">寿</span><span class="logo-text">Суши <em>Pizza</em> Тайм — Админ</span></div>
+    <button class="btn btn-ghost btn-sm" id="logoutBtn">Выйти</button>
+  </header>
+
+  <nav class="admin-tabs">
+    <button class="admin-tab active" data-tab="orders">📦 Заказы</button>
+    <button class="admin-tab" data-tab="products">🍣 Товары</button>
+  </nav>
+
+  <!-- ---------- ORDERS TAB ---------- -->
+  <section class="admin-panel" id="tabOrders">
+    <div class="admin-panel-head">
+      <h2>Заказы</h2>
+      <button class="btn btn-ghost btn-sm" id="refreshOrdersBtn">↻ Обновить</button>
+    </div>
+    <div id="ordersList" class="admin-orders-list"></div>
+  </section>
+
+  <!-- ---------- PRODUCTS TAB ---------- -->
+  <section class="admin-panel" id="tabProducts" hidden>
+    <div class="admin-panel-head">
+      <h2>Товары</h2>
+      <button class="btn btn-primary btn-sm" id="addProductBtn">+ Добавить товар</button>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th></th><th>Название</th><th>Категория</th><th>Цена</th><th>Старая цена</th><th>Флаги</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ============== PRODUCT FORM MODAL ============== -->
+<div class="modal-overlay" id="productFormOverlay">
+  <div class="modal admin-product-modal" id="productFormModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

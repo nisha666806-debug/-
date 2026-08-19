@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Суши Pizza Тайм — доставка суши и пиццы в Москве и МО</title>
+<meta name="description" content="Суши Pizza Тайм — доставка суши, роллов, пиццы и WOK в Москве и Московской области. Быстро, свежо, выгодно. Закажи онлайн за 2 минуты.">
+<meta name="keywords" content="суши доставка Москва, роллы Москва, пицца доставка Москва, суши и пицца доставка, Суши Pizza Тайм">
+<meta property="og:title" content="Суши Pizza Тайм — доставка суши и пиццы">
+<meta property="og:description" content="Свежие роллы, аппетитная пицца и любимые блюда — быстро доставим прямо к вам.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231A1D1C'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%23E1472B'%3E寿%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Суши Pizza Тайм",
+  "servesCuisine": ["Japanese", "Italian", "Sushi", "Pizza"],
+  "priceRange": "₽₽",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Москва",
+    "addressCountry": "RU"
+  },
+  "acceptsReservations": "False"
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ================= TOASTS ================= -->
+<div id="toastHost" class="toast-host" aria-live="polite"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <button class="icon-btn burger" id="burgerBtn" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="#home" class="logo" data-nav="home" aria-label="Суши Pizza Тайм — на главную">
+      <span class="logo-mark">寿</span>
+      <span class="logo-text">Суши <em>Pizza</em> Тайм</span>
+    </a>
+
+    <button class="address-pill" id="addressPill" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="15" height="15"><path fill="currentColor" d="M12 2C7.6 2 4 5.6 4 10c0 5.2 7 12 8 12s8-6.8 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>
+      <span id="addressPillText">Москва, доставка</span>
+      <svg viewBox="0 0 24 24" width="12" height="12" class="chev"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+    </button>
+
+    <nav class="main-nav" aria-label="Основная навигация">
+      <a href="#menu" data-nav="menu">Меню</a>
+      <a href="#promotions" data-nav="promotions">Акции</a>
+      <a href="#delivery" data-nav="delivery">Доставка</a>
+      <a href="#about" data-nav="about">О нас</a>
+      <a href="#contacts" data-nav="contacts">Контакты</a>
+    </nav>
+
+    <div class="header-search" id="headerSearchWrap">
+      <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 10-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/></svg>
+      <input type="search" id="searchInput" placeholder="Найти блюдо, например «лосось»">
+    </div>
+
+    <button class="icon-btn only-desktop" id="favBtnHeader" data-nav="favorites" aria-label="Избранное">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2 5 5.6 5c2 0 3.3 1 4.4 2.4C11.1 6 12.4 5 14.4 5 18 5 19.5 8.6 22 11.9 19.5 16.4 12 21 12 21z" opacity=".9"/></svg>
+      <span class="badge" id="favBadge" hidden>0</span>
+    </button>
+
+    <button class="icon-btn only-desktop" id="profileBtnHeader" data-nav="profile" aria-label="Профиль">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.4 0-8 2.7-8 6v1h16v-1c0-3.3-3.6-6-8-6z"/></svg>
+    </button>
+
+    <button class="cart-btn" id="cartBtnHeader" aria-label="Корзина">
+      <svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M7 4h-2l-1 2H2v2h2l3.6 7.6-1.4 2.5c-.6 1.1.2 2.4 1.5 2.4h11v-2H8l1.1-2h6.6c.8 0 1.4-.4 1.8-1.1l3.2-6c.5-.9-.1-2-1.2-2H6.2l-.9-2zM7 20a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <span>Корзина</span>
+      <span class="cart-btn-total" id="cartBtnTotal" hidden>0 ₽</span>
+      <span class="badge cart-badge" id="cartBadge" hidden>0</span>
+    </button>
+  </div>
+
+  <div class="header-search mobile-search" id="mobileSearchWrap">
+    <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 10-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/></svg>
+    <input type="search" id="searchInputMobile" placeholder="Найти блюдо, например «лосось»">
+  </div>
+
+  <div class="category-strip" id="categoryStrip" aria-label="Категории меню"></div>
+</header>
+
+<!-- ================= MOBILE SIDE MENU ================= -->
+<div class="side-menu-overlay" id="sideMenuOverlay"></div>
+<aside class="side-menu" id="sideMenu" aria-label="Меню разделов">
+  <div class="side-menu-head">
+    <span class="logo-mark">寿</span>
+    <strong>Суши Pizza Тайм</strong>
+    <button class="icon-btn" id="closeSideMenu" aria-label="Закрыть">✕</button>
+  </div>
+  <nav class="side-menu-nav">
+    <a href="#home" data-nav="home">Главная</a>
+    <a href="#menu" data-nav="menu">Меню</a>
+    <a href="#promotions" data-nav="promotions">Акции</a>
+    <a href="#delivery" data-nav="delivery">Доставка</a>
+    <a href="#favorites" data-nav="favorites">Избранное</a>
+    <a href="#profile" data-nav="profile">Личный кабинет</a>
+    <a href="#orders" data-nav="orders">История заказов</a>
+    <a href="#about" data-nav="about">О компании</a>
+    <a href="#contacts" data-nav="contacts">Контакты</a>
+  </nav>
+  <div class="side-menu-foot">
+    <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+    <span>Ежедневно 10:00–23:00</span>
+  </div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main id="app"></main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer" id="siteFooter">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <div class="logo"><span class="logo-mark">寿</span><span class="logo-text">Суши <em>Pizza</em> Тайм</span></div>
+      <p>Суши и пицца с доставкой в Москве и Московской области. Свежие продукты, честные порции, без опозданий.</p>
+      <div class="footer-socials">
+        <a href="#" aria-label="ВКонтакте">VK</a>
+        <a href="#" aria-label="Telegram">TG</a>
+        <a href="#" aria-label="WhatsApp">WA</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Меню</h4>
+      <a href="#category-rolls" data-nav="category" data-cat="rolls">Роллы</a>
+      <a href="#category-pizza" data-nav="category" data-cat="pizza">Пицца</a>
+      <a href="#category-sets" data-nav="category" data-cat="sets">Сеты</a>
+      <a href="#category-wok" data-nav="category" data-cat="wok">WOK</a>
+    </div>
+    <div class="footer-col">
+      <h4>Информация</h4>
+      <a href="#delivery" data-nav="delivery">Доставка и оплата</a>
+      <a href="#promotions" data-nav="promotions">Акции</a>
+      <a href="#about" data-nav="about">О компании</a>
+      <a href="#contacts" data-nav="contacts">Контакты</a>
+    </div>
+    <div class="footer-col">
+      <h4>Контакты</h4>
+      <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+      <a href="mailto:hello@sushipizzatime.ru">hello@sushipizzatime.ru</a>
+      <span>Москва и Московская область</span>
+      <span>Ежедневно 10:00–23:00</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Суши Pizza Тайм. Все права защищены.</span>
+    <span class="footer-lang">RU <em>· EN · TJ (скоро)</em></span>
+  </div>
+</footer>
+
+<!-- ================= MOBILE BOTTOM NAV ================= -->
+<nav class="bottom-nav" id="bottomNav" aria-label="Быстрая навигация">
+  <a href="#home" data-nav="home" class="bn-item">
+    <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+    <span>Главная</span>
+  </a>
+  <a href="#menu" data-nav="menu" class="bn-item">
+    <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M4 4h4v16H4zM10 4h2v7h-2zM11 13v7h1v-7zM15 4c-1.7 0-3 2-3 4.5S13.3 13 15 13v7h2V4z"/></svg>
+    <span>Меню</span>
+  </a>
+  <a href="#promotions" data-nav="promotions" class="bn-item">
+    <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M20 12l-2-2.2.3-3-3-.7L13.7 3 12 4.3 10.3 3 8.7 6.1l-3 .6.3 3L4 12l2 2.2-.3 3 3 .7L10.3 21l1.7-1.3L13.7 21l1.6-3.1 3-.6-.3-3zM10 8.5a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM9 16l6-8 1 .7-6 8z"/></svg>
+    <span>Акции</span>
+  </a>
+  <a href="#cart" data-nav="cart" class="bn-item">
+    <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M7 4h-2l-1 2H2v2h2l3.6 7.6-1.4 2.5c-.6 1.1.2 2.4 1.5 2.4h11v-2H8l1.1-2h6.6c.8 0 1.4-.4 1.8-1.1l3.2-6c.5-.9-.1-2-1.2-2H6.2l-.9-2zM7 20a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4z"/></svg>
+    <span>Корзина</span>
+    <span class="bn-badge" id="bnCartBadge" hidden>0</span>
+  </a>
+  <a href="#profile" data-nav="profile" class="bn-item">
+    <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.4 0-8 2.7-8 6v1h16v-1c0-3.3-3.6-6-8-6z"/></svg>
+    <span>Профиль</span>
+  </a>
+</nav>
+
+<!-- ================= STICKY MINI CART (mobile) ================= -->
+<button class="sticky-cart" id="stickyCart" hidden>
+  <span class="sticky-cart-count" id="stickyCartCount">1</span>
+  <span>Корзина</span>
+  <span id="stickyCartTotal">0 ₽</span>
+</button>
+
+<!-- ================= PRODUCT MODAL ================= -->
+<div class="modal-overlay" id="productModalOverlay">
+  <div class="modal product-modal" id="productModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<!-- ================= CART DRAWER ================= -->
+<div class="drawer-overlay" id="cartOverlay"></div>
+<aside class="drawer" id="cartDrawer" aria-label="Корзина">
+  <div class="drawer-head">
+    <h3>Корзина</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Закрыть корзину">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</aside>
+
+<!-- ================= PROMO DETAIL MODAL ================= -->
+<div class="modal-overlay" id="promoModalOverlay">
+  <div class="modal promo-modal" id="promoModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<!-- ================= ADDRESS MODAL ================= -->
+<div class="modal-overlay" id="addressModalOverlay">
+  <div class="modal address-modal" id="addressModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<!-- ================= LOADING SCREEN ================= -->
+<div id="loadingScreen" class="loading-screen">
+  <div class="loading-mark">寿</div>
+  <p id="loadingText">Загружаем меню…</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

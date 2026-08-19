@@ -1,0 +1,109 @@
+/* =========================================================================
+   admin.css — стилҳои панели админ. Токенҳои ранг/шрифт аз styles.css
+   истифода мешаванд (:root дар он ҷо муайян шудааст).
+   ========================================================================= */
+
+.admin-body{ padding-bottom:0; }
+
+/* ---------------------------------------------------------------------- */
+/* LOGIN                                                                    */
+/* ---------------------------------------------------------------------- */
+.admin-login-screen{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:var(--ink); padding:20px;
+}
+.admin-login-card{
+  background:#fff; border-radius:var(--radius-lg); padding:40px 34px; width:100%; max-width:360px;
+  text-align:center; box-shadow:var(--shadow-lg);
+}
+.admin-login-card h1{ font-size:1.3rem; margin-bottom:2px; }
+.admin-login-card > p{ margin-bottom:20px; }
+.admin-login-card .field{ text-align:left; }
+
+/* ---------------------------------------------------------------------- */
+/* DASHBOARD SHELL                                                          */
+/* ---------------------------------------------------------------------- */
+.admin-dashboard{ max-width:1100px; margin:0 auto; padding:0 20px 60px; }
+.admin-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0; border-bottom:1px solid var(--line); margin-bottom:18px;
+}
+.admin-tabs{ display:flex; gap:8px; margin-bottom:22px; }
+.admin-tab{
+  background:var(--white); border:1.5px solid var(--line); border-radius:999px;
+  padding:10px 18px; font-weight:700; font-size:.88rem; color:var(--text-soft);
+}
+.admin-tab.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+.admin-panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.admin-panel-head h2{ font-size:1.2rem; margin:0; }
+
+/* ---------------------------------------------------------------------- */
+/* ORDERS                                                                   */
+/* ---------------------------------------------------------------------- */
+.admin-orders-list{ display:flex; flex-direction:column; gap:12px; }
+.admin-order-card{
+  background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-md);
+  padding:18px 20px; display:grid; grid-template-columns:1fr auto; gap:14px; align-items:start;
+}
+.aoc-main{ min-width:0; }
+.aoc-top{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+.aoc-top strong{ font-family:var(--font-mono); font-size:.95rem; }
+.aoc-date{ font-size:.76rem; color:var(--text-soft); font-family:var(--font-mono); }
+.aoc-customer{ font-size:.86rem; margin:4px 0; }
+.aoc-customer b{ font-weight:700; }
+.aoc-items{ margin:8px 0; display:flex; flex-direction:column; gap:2px; }
+.aoc-items li{ font-size:.82rem; color:var(--text); list-style:none; }
+.aoc-addr{ font-size:.78rem; color:var(--text-soft); }
+.aoc-totals{ font-family:var(--font-mono); font-size:.9rem; margin-top:8px; display:flex; gap:14px; flex-wrap:wrap; }
+.aoc-totals span b{ color:var(--ink); }
+.aoc-side{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.aoc-total-big{ font-family:var(--font-mono); font-weight:800; font-size:1.15rem; }
+.aoc-status-select{
+  border:1.5px solid var(--line); border-radius:10px; padding:8px 10px; font-weight:700; font-size:.82rem;
+  background:#fff; color:var(--text); cursor:pointer;
+}
+.aoc-status-select.st-new{ border-color:var(--tomato); color:var(--tomato-dark); }
+.aoc-status-select.st-progress{ border-color:var(--salmon); color:#9a5b12; }
+.aoc-status-select.st-done{ border-color:var(--wasabi); color:var(--wasabi-dark); }
+.aoc-status-select.st-cancelled{ border-color:var(--text-soft); color:var(--text-soft); }
+@media (max-width:640px){
+  .admin-order-card{ grid-template-columns:1fr; }
+  .aoc-side{ align-items:flex-start; flex-direction:row; justify-content:space-between; width:100%; }
+}
+
+/* ---------------------------------------------------------------------- */
+/* PRODUCTS TABLE                                                           */
+/* ---------------------------------------------------------------------- */
+.admin-table-wrap{ background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-md); overflow-x:auto; }
+.admin-table{ width:100%; border-collapse:collapse; font-size:.86rem; }
+.admin-table th{ text-align:left; padding:12px 14px; background:var(--cream-2); font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; color:var(--text-soft); white-space:nowrap; }
+.admin-table td{ padding:10px 14px; border-top:1px solid var(--line); vertical-align:middle; }
+.admin-table tr:hover td{ background:var(--cream); }
+.admin-row-emoji{ font-size:1.3rem; }
+.admin-row-price{ font-family:var(--font-mono); font-weight:700; }
+.admin-row-old-price{ font-family:var(--font-mono); color:var(--text-soft); text-decoration:line-through; }
+.admin-flags{ display:flex; gap:4px; flex-wrap:wrap; }
+.admin-flag{ font-size:.66rem; font-weight:800; padding:3px 7px; border-radius:999px; background:var(--cream-2); color:var(--text-soft); }
+.admin-flag.flag-new{ background:#EAF1E3; color:var(--wasabi-dark); }
+.admin-flag.flag-popular{ background:#FCEEEA; color:var(--tomato-dark); }
+.admin-flag.flag-sale{ background:#FFF3D9; color:#9a6a12; }
+.admin-row-actions{ display:flex; gap:6px; white-space:nowrap; }
+.admin-icon-btn{ width:30px; height:30px; border-radius:8px; border:1.5px solid var(--line); background:#fff; font-size:.85rem; }
+.admin-icon-btn:hover{ border-color:var(--ink); }
+.admin-icon-btn.danger:hover{ border-color:var(--danger); color:var(--danger); }
+
+/* ---------------------------------------------------------------------- */
+/* PRODUCT FORM MODAL                                                       */
+/* ---------------------------------------------------------------------- */
+.admin-product-modal{ padding:26px; max-width:560px; }
+.admin-product-modal h2{ font-size:1.15rem; margin-bottom:16px; }
+.admin-form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 12px; }
+.admin-form-grid .field{ grid-column:span 2; }
+.admin-form-grid .field-sm{ grid-column:span 1; }
+.admin-checkbox-row{ display:flex; gap:18px; margin:6px 0 16px; }
+.admin-checkbox-row label{ display:flex; align-items:center; gap:6px; font-size:.85rem; font-weight:600; cursor:pointer; }
+.admin-checkbox-row input{ width:16px; height:16px; accent-color:var(--tomato); }
+.admin-form-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:6px; }
+
+.admin-empty{ text-align:center; padding:50px 20px; color:var(--text-soft); }

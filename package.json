@@ -1,0 +1,12 @@
+{
+  "name": "sushi-pizza-time-backend",
+  "version": "1.0.0",
+  "description": "Бэкенди «Суши Pizza Тайм» — Node.js core, бе npm install",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "reseed": "node scripts/reseed.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {}
+}

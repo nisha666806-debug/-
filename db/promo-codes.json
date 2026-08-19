@@ -1,0 +1,20 @@
+{
+  "WELCOME10": {
+    "type": "percent",
+    "value": 10,
+    "minSum": 800,
+    "desc": "−10% на первый заказ"
+  },
+  "PIZZA500": {
+    "type": "amount",
+    "value": 300,
+    "minSum": 1500,
+    "desc": "−300 ₽ на заказ от 1500 ₽"
+  },
+  "SUSHI10": {
+    "type": "percent",
+    "value": 10,
+    "minSum": 600,
+    "desc": "−10% на заказ от 600 ₽"
+  }
+}
