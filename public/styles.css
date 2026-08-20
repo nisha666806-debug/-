@@ -563,3 +563,22 @@ img{ max-width:100%; display:block; }
 .loading-screen.error .loading-mark{ background:var(--danger); color:#fff; animation:none; }
 .loading-screen.error p{ color:var(--danger); max-width:340px; text-align:center; line-height:1.5; }
 .loading-retry{ margin-top:6px; }
+
+/* ---------------------------------------------------------------------- */
+/* REAL PRODUCT PHOTOS (uploaded via admin panel)                          */
+/* ---------------------------------------------------------------------- */
+.pc-photo-img{ width:100%; height:100%; object-fit:cover; }
+.pm-photo-img{ width:100%; height:100%; object-fit:cover; border-radius:24px 24px 0 0; }
+
+/* ---------------------------------------------------------------------- */
+/* PROMO BANNER IMAGES (uploaded via admin)                                */
+/* ---------------------------------------------------------------------- */
+.promo-card-has-img{ padding:0; overflow:hidden; }
+.promo-card-img{ display:block; width:100%; height:120px; }
+.promo-card-img img{ width:100%; height:100%; object-fit:cover; }
+.promo-card-has-img .promo-card-content{ display:flex; flex-direction:column; gap:8px; padding:16px; }
+.promo-card-lg.promo-card-has-img .promo-card-img{ height:150px; }
+
+.promo-modal-banner{ height:180px; border-radius:24px 24px 0 0; overflow:hidden; }
+.promo-modal-banner img{ width:100%; height:100%; object-fit:cover; }
+@media (min-width:700px){ .promo-modal-banner{ border-radius:24px 24px 0 0; } }

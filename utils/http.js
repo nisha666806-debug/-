@@ -26,7 +26,7 @@ function readBody(req) {
     let data = "";
     req.on("data", (chunk) => {
       data += chunk;
-      if (data.length > 2_000_000) { // 2MB лимит эҳтиётӣ
+      if (data.length > 8_000_000) { // 8MB лимит — кофист барои акси фишурдашуда (base64)
         reject(new Error("Payload too large"));
         req.destroy();
       }

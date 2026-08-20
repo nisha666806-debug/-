@@ -409,7 +409,7 @@ function productCard(p){
   return `
   <article class="product-card" data-action="open-product" data-id="${p.id}">
     <div class="pc-photo" style="background:${p.photoBg}">
-      <span class="pc-emoji">${p.emoji}</span>
+      ${p.image ? `<img class="pc-photo-img" src="${p.image}" alt="${escapeHtml(p.name)}">` : `<span class="pc-emoji">${p.emoji}</span>`}
       ${p.isNew ? '<span class="pc-flag pc-flag-new">Новинка</span>' : ''}
       ${discount ? `<span class="pc-flag pc-flag-sale">−${discount}%</span>` : ''}
       <button class="pc-fav ${isFavorite(p.id)?'active':''}" data-fav-id="${p.id}" data-action="toggle-fav" aria-label="В избранное">
@@ -487,10 +487,13 @@ function viewHome(){
     </div>
     <div class="promo-scroll">
       ${promotions.map(promo=>`
-        <button class="promo-card" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
-          <span class="promo-tag">${promo.tag}</span>
-          <strong>${promo.title}</strong>
-          ${promo.code ? `<span class="promo-code">Промокод: ${promo.code}</span>` : `<span class="promo-code">Автоматически</span>`}
+        <button class="promo-card ${promo.image?'promo-card-has-img':''}" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
+          ${promo.image ? `<span class="promo-card-img"><img src="${promo.image}" alt="${escapeHtml(promo.title)}"></span>` : ""}
+          <span class="promo-card-content">
+            <span class="promo-tag">${promo.tag}</span>
+            <strong>${promo.title}</strong>
+            ${promo.code ? `<span class="promo-code">Промокод: ${promo.code}</span>` : `<span class="promo-code">Автоматически</span>`}
+          </span>
         </button>
       `).join("")}
     </div>
@@ -597,11 +600,14 @@ function viewPromotions(){
     <div class="section-head"><h2>Акции</h2></div>
     <div class="promo-grid">
       ${promotions.map(promo=>`
-        <button class="promo-card promo-card-lg" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
-          <span class="promo-tag">${promo.tag}</span>
-          <strong>${promo.title}</strong>
-          <p>${promo.desc}</p>
-          ${promo.code ? `<span class="promo-code">Промокод: ${promo.code}</span>` : `<span class="promo-code">Скидка применяется автоматически</span>`}
+        <button class="promo-card promo-card-lg ${promo.image?'promo-card-has-img':''}" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
+          ${promo.image ? `<span class="promo-card-img"><img src="${promo.image}" alt="${escapeHtml(promo.title)}"></span>` : ""}
+          <span class="promo-card-content">
+            <span class="promo-tag">${promo.tag}</span>
+            <strong>${promo.title}</strong>
+            <p>${promo.desc}</p>
+            ${promo.code ? `<span class="promo-code">Промокод: ${promo.code}</span>` : `<span class="promo-code">Скидка применяется автоматически</span>`}
+          </span>
         </button>
       `).join("")}
     </div>
@@ -622,7 +628,7 @@ function renderProductModal(p){
   modal.innerHTML = `
     <button class="modal-close" data-action="close-product">✕</button>
     <div class="pm-photo" style="background:${p.photoBg}">
-      <span class="pm-emoji">${p.emoji}</span>
+      ${p.image ? `<img class="pm-photo-img" src="${p.image}" alt="${escapeHtml(p.name)}">` : `<span class="pm-emoji">${p.emoji}</span>`}
       ${discount ? `<span class="pc-flag pc-flag-sale">−${discount}%</span>` : ''}
     </div>
     <div class="pm-body">
@@ -685,7 +691,9 @@ function renderPromoModal(promo){
   const modal = document.getElementById("promoModal");
   modal.innerHTML = `
     <button class="modal-close" data-action="close-promo">✕</button>
-    <div class="promo-modal-accent" style="background:${promo.color}"></div>
+    ${promo.image
+      ? `<div class="promo-modal-banner"><img src="${promo.image}" alt="${escapeHtml(promo.title)}"></div>`
+      : `<div class="promo-modal-accent" style="background:${promo.color}"></div>`}
     <div class="promo-modal-body">
       <span class="promo-tag">${promo.tag}</span>
       <h2>${promo.title}</h2>

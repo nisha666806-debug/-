@@ -39,6 +39,7 @@
   <nav class="admin-tabs">
     <button class="admin-tab active" data-tab="orders">📦 Заказы</button>
     <button class="admin-tab" data-tab="products">🍣 Товары</button>
+    <button class="admin-tab" data-tab="promotions">🏷️ Акции</button>
   </nav>
 
   <!-- ---------- ORDERS TAB ---------- -->
@@ -67,11 +68,25 @@
       </table>
     </div>
   </section>
+
+  <!-- ---------- PROMOTIONS TAB ---------- -->
+  <section class="admin-panel" id="tabPromotions" hidden>
+    <div class="admin-panel-head">
+      <h2>Акции</h2>
+      <button class="btn btn-primary btn-sm" id="addPromoBtn">+ Добавить акцию</button>
+    </div>
+    <div id="promosList" class="admin-promos-list"></div>
+  </section>
 </div>
 
 <!-- ============== PRODUCT FORM MODAL ============== -->
 <div class="modal-overlay" id="productFormOverlay">
   <div class="modal admin-product-modal" id="productFormModal" role="dialog" aria-modal="true"></div>
+</div>
+
+<!-- ============== PROMO FORM MODAL ============== -->
+<div class="modal-overlay" id="promoFormOverlay">
+  <div class="modal admin-product-modal" id="promoFormModal" role="dialog" aria-modal="true"></div>
 </div>
 
 <script src="admin.js"></script>

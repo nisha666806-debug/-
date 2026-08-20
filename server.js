@@ -123,6 +123,25 @@ const server = http.createServer(async (req, res) => {
       return removed ? sendJSON(res, 200, { ok: true }) : sendJSON(res, 404, { error: "Товар не найден" });
     }
 
+    // ---------------- Admin: акцияҳо (CRUD) ----------------
+    if (pathname === "/api/admin/promotions" && method === "POST") {
+      if (!requireAdmin(req, res)) return;
+      const body = await readBody(req);
+      return sendJSON(res, 201, productsApi.createPromotion(body));
+    }
+    const adminPromoMatch = pathname.match(/^\/api\/admin\/promotions\/([\w-]+)$/);
+    if (adminPromoMatch && method === "PUT") {
+      if (!requireAdmin(req, res)) return;
+      const body = await readBody(req);
+      const updated = productsApi.updatePromotion(adminPromoMatch[1], body);
+      return updated ? sendJSON(res, 200, updated) : sendJSON(res, 404, { error: "Акция не найдена" });
+    }
+    if (adminPromoMatch && method === "DELETE") {
+      if (!requireAdmin(req, res)) return;
+      const removed = productsApi.deletePromotion(adminPromoMatch[1]);
+      return removed ? sendJSON(res, 200, { ok: true }) : sendJSON(res, 404, { error: "Акция не найдена" });
+    }
+
     // ---------------- Статика (не обязательно, но удобно) ----------------
     if (method === "GET" && !pathname.startsWith("/api/")) {
       return serveStatic(pathname, res);

@@ -108,6 +108,8 @@ document.querySelectorAll(".admin-tab").forEach(btn=>{
     document.querySelectorAll(".admin-tab").forEach(b=> b.classList.toggle("active", b===btn));
     document.getElementById("tabOrders").hidden = btn.dataset.tab !== "orders";
     document.getElementById("tabProducts").hidden = btn.dataset.tab !== "products";
+    document.getElementById("tabPromotions").hidden = btn.dataset.tab !== "promotions";
+    if (btn.dataset.tab === "promotions") loadPromos();
   });
 });
 
@@ -214,7 +216,7 @@ function renderProductsTable(){
   }
   tbody.innerHTML = productsCache.map(p => `
     <tr>
-      <td><span class="admin-row-emoji">${p.emoji||"🍽️"}</span></td>
+      <td>${p.image ? `<img class="admin-row-thumb" src="${p.image}" alt="">` : `<span class="admin-row-emoji">${p.emoji||"🍽️"}</span>`}</td>
       <td>${escapeHtml(p.name)}</td>
       <td>${escapeHtml(categoryName(p.category))}</td>
       <td class="admin-row-price">${money(p.price)}</td>
@@ -260,18 +262,36 @@ async function deleteProduct(id){
 
 document.getElementById("addProductBtn").addEventListener("click", ()=> openProductForm(null));
 
+let currentProductImage = null; // base64 data URI ё null
+
 function openProductForm(product){
   const modal = document.getElementById("productFormModal");
   const isEdit = !!product;
+  currentProductImage = product?.image || null;
   modal.innerHTML = `
     <button class="modal-close" data-close-form>✕</button>
     <h2>${isEdit ? "Редактировать товар" : "Новый товар"}</h2>
+
+    <div class="pf-photo-block">
+      <div class="pf-photo-preview" id="pfPhotoPreview">
+        ${currentProductImage ? `<img src="${currentProductImage}" alt="">` : `<span>${escapeHtml(product?.emoji||"🍽️")}</span>`}
+      </div>
+      <div class="pf-photo-actions">
+        <label class="btn btn-ghost btn-sm pf-upload-btn">
+          📷 ${currentProductImage ? "Заменить фото" : "Загрузить фото"}
+          <input type="file" id="pf_photoInput" accept="image/*" hidden>
+        </label>
+        ${currentProductImage ? `<button class="btn btn-ghost btn-sm" id="pfRemovePhoto" type="button">✕ Убрать фото</button>` : ""}
+        <span class="pf-photo-hint">Фото с телефона или компьютера — сожмётся автоматически</span>
+      </div>
+    </div>
+
     <div class="admin-form-grid">
       <div class="field"><label>Название *</label><input id="pf_name" type="text" value="${escapeHtml(product?.name||"")}"></div>
       <div class="field field-sm"><label>Категория</label>
         <select id="pf_category">${CATEGORIES.filter(c=>c.id!=="popular"&&c.id!=="new").map(c=>`<option value="${c.id}" ${product?.category===c.id?"selected":""}>${c.name}</option>`).join("")}</select>
       </div>
-      <div class="field field-sm"><label>Эмодзи</label><input id="pf_emoji" type="text" value="${escapeHtml(product?.emoji||"🍽️")}" maxlength="4"></div>
+      <div class="field field-sm"><label>Эмодзи (если без фото)</label><input id="pf_emoji" type="text" value="${escapeHtml(product?.emoji||"🍽️")}" maxlength="4"></div>
       <div class="field"><label>Описание</label><textarea id="pf_description" rows="2">${escapeHtml(product?.description||"")}</textarea></div>
       <div class="field"><label>Состав</label><input id="pf_ingredients" type="text" value="${escapeHtml(product?.ingredients||"")}"></div>
       <div class="field field-sm"><label>Вес</label><input id="pf_weight" type="text" value="${escapeHtml(product?.weight||"")}" placeholder="250 г"></div>
@@ -295,6 +315,38 @@ function openProductForm(product){
 
   modal.querySelectorAll("[data-close-form]").forEach(b=> b.addEventListener("click", closeProductForm));
   document.getElementById("pfSubmit").addEventListener("click", ()=> submitProductForm(product?.id));
+  document.getElementById("pf_photoInput").addEventListener("change", handlePhotoSelect);
+  const removeBtn = document.getElementById("pfRemovePhoto");
+  if (removeBtn) removeBtn.addEventListener("click", ()=>{
+    currentProductImage = null;
+    openProductForm(product ? { ...product, image: null } : null); // перерисовать форму без фото
+  });
+}
+
+// Сжимает выбранное фото до разумного размера (макс. 900px по широкой стороне,
+// JPEG качество 0.8) перед превращением в base64 — чтобы не раздувать базу.
+function handlePhotoSelect(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const maxSide = 900;
+      let { width, height } = img;
+      if (width > height && width > maxSide){ height = Math.round(height * maxSide/width); width = maxSide; }
+      else if (height > maxSide){ width = Math.round(width * maxSide/height); height = maxSide; }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      currentProductImage = canvas.toDataURL("image/jpeg", 0.8);
+      const preview = document.getElementById("pfPhotoPreview");
+      if (preview) preview.innerHTML = `<img src="${currentProductImage}" alt="">`;
+      toast("Фото загружено", "success");
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
 function closeProductForm(){
@@ -320,10 +372,14 @@ async function submitProductForm(existingId){
     tags: document.getElementById("pf_tags").value.trim(),
     popular: document.getElementById("pf_popular").checked,
     isNew: document.getElementById("pf_isNew").checked,
+    image: currentProductImage,
   };
   if (!payload.name){ errEl.textContent = "Введите название"; return; }
   if (!payload.price){ errEl.textContent = "Укажите цену"; return; }
 
+  const submitBtn = document.getElementById("pfSubmit");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Сохраняем…";
   try{
     if (existingId){
       await apiPut(`/api/admin/products/${existingId}`, payload, true);
@@ -336,11 +392,183 @@ async function submitProductForm(existingId){
     loadProducts();
   } catch(e){
     if (e.status === 401){ clearToken(); showLogin(); return; }
-    errEl.textContent = "Не удалось сохранить товар";
+    errEl.textContent = e.status === 413 ? "Фото слишком большое — попробуйте другое" : "Не удалось сохранить товар";
+    submitBtn.disabled = false;
+    submitBtn.textContent = existingId ? "Сохранить" : "Добавить";
   }
 }
 
 document.addEventListener("keydown", (e)=>{ if (e.key === "Escape") closeProductForm(); });
+
+// ---------------------------------------------------------------------------
+// PROMOTIONS (акции)
+// ---------------------------------------------------------------------------
+let promosCache = [];
+let currentPromoImage = null;
+
+async function loadPromos(){
+  const list = document.getElementById("promosList");
+  try{
+    promosCache = await apiGet("/api/promotions");
+    renderPromos();
+  } catch(e){
+    list.innerHTML = `<div class="admin-empty">Не удалось загрузить акции.</div>`;
+  }
+}
+
+function renderPromos(){
+  const list = document.getElementById("promosList");
+  if (promosCache.length === 0){
+    list.innerHTML = `<div class="admin-empty">Акций пока нет. Нажмите «+ Добавить акцию».</div>`;
+    return;
+  }
+  list.innerHTML = promosCache.map(p => `
+    <div class="admin-promo-card" style="--accent:${p.color || 'var(--tomato)'}">
+      <div class="apc-media">
+        ${p.image ? `<img src="${p.image}" alt="">` : `<div class="apc-noimg">🏷️</div>`}
+      </div>
+      <div class="apc-body">
+        <span class="apc-tag">${escapeHtml(p.tag||"")}</span>
+        <strong>${escapeHtml(p.title||"")}</strong>
+        <p>${escapeHtml(p.desc||"")}</p>
+        ${p.code ? `<span class="apc-code">Промокод: ${escapeHtml(p.code)}</span>` : `<span class="apc-code apc-auto">Автоматически</span>`}
+      </div>
+      <div class="apc-actions">
+        <button class="admin-icon-btn" data-promo-edit="${p.id}" title="Редактировать">✎</button>
+        <button class="admin-icon-btn danger" data-promo-del="${p.id}" title="Удалить">✕</button>
+      </div>
+    </div>
+  `).join("");
+
+  list.querySelectorAll("[data-promo-edit]").forEach(btn=>{
+    btn.addEventListener("click", ()=> openPromoForm(promosCache.find(p=>p.id===btn.dataset.promoEdit)));
+  });
+  list.querySelectorAll("[data-promo-del]").forEach(btn=>{
+    btn.addEventListener("click", ()=> deletePromo(btn.dataset.promoDel));
+  });
+}
+
+document.getElementById("addPromoBtn").addEventListener("click", ()=> openPromoForm(null));
+
+function openPromoForm(promo){
+  const modal = document.getElementById("promoFormModal");
+  const isEdit = !!promo;
+  currentPromoImage = promo?.image || null;
+  modal.innerHTML = `
+    <button class="modal-close" data-close-promo-form>✕</button>
+    <h2>${isEdit ? "Редактировать акцию" : "Новая акция"}</h2>
+
+    <div class="pf-photo-block">
+      <div class="pf-photo-preview promo-preview" id="promoPhotoPreview">
+        ${currentPromoImage ? `<img src="${currentPromoImage}" alt="">` : `<span>🏷️</span>`}
+      </div>
+      <div class="pf-photo-actions">
+        <label class="btn btn-ghost btn-sm pf-upload-btn">
+          📷 ${currentPromoImage ? "Заменить баннер" : "Загрузить баннер"}
+          <input type="file" id="promo_photoInput" accept="image/*" hidden>
+        </label>
+        ${currentPromoImage ? `<button class="btn btn-ghost btn-sm" id="promoRemovePhoto" type="button">✕ Убрать баннер</button>` : ""}
+        <span class="pf-photo-hint">Картинка акции — сожмётся автоматически</span>
+      </div>
+    </div>
+
+    <div class="field"><label>Заголовок *</label><input id="promo_title" type="text" value="${escapeHtml(promo?.title||"")}" placeholder="Скидка 10% на первый заказ"></div>
+    <div class="field"><label>Метка (маленький текст сверху)</label><input id="promo_tag" type="text" value="${escapeHtml(promo?.tag||"")}" placeholder="Новым клиентам"></div>
+    <div class="field"><label>Описание</label><textarea id="promo_desc" rows="2">${escapeHtml(promo?.desc||"")}</textarea></div>
+    <div class="field"><label>Промокод (если есть)</label><input id="promo_code" type="text" value="${escapeHtml(promo?.code||"")}" placeholder="WELCOME10 — оставьте пустым, если без кода"></div>
+    <div id="promoFormError" class="field-error"></div>
+    <div class="admin-form-actions">
+      <button class="btn btn-ghost" data-close-promo-form>Отмена</button>
+      <button class="btn btn-primary" id="promoSubmit">${isEdit ? "Сохранить" : "Добавить"}</button>
+    </div>
+  `;
+  document.getElementById("promoFormOverlay").classList.add("show");
+  document.body.classList.add("no-scroll");
+
+  modal.querySelectorAll("[data-close-promo-form]").forEach(b=> b.addEventListener("click", closePromoForm));
+  document.getElementById("promoSubmit").addEventListener("click", ()=> submitPromoForm(promo?.id));
+  document.getElementById("promo_photoInput").addEventListener("change", handlePromoPhotoSelect);
+  const removeBtn = document.getElementById("promoRemovePhoto");
+  if (removeBtn) removeBtn.addEventListener("click", ()=>{
+    currentPromoImage = null;
+    openPromoForm(promo ? { ...promo, image: null } : null);
+  });
+}
+
+function handlePromoPhotoSelect(e){
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const maxSide = 1000;
+      let { width, height } = img;
+      if (width > height && width > maxSide){ height = Math.round(height * maxSide/width); width = maxSide; }
+      else if (height > maxSide){ width = Math.round(width * maxSide/height); height = maxSide; }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      currentPromoImage = canvas.toDataURL("image/jpeg", 0.82);
+      const preview = document.getElementById("promoPhotoPreview");
+      if (preview) preview.innerHTML = `<img src="${currentPromoImage}" alt="">`;
+      toast("Баннер загружен", "success");
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function closePromoForm(){
+  document.getElementById("promoFormOverlay").classList.remove("show");
+  document.body.classList.remove("no-scroll");
+}
+document.getElementById("promoFormOverlay").addEventListener("click", (e)=>{
+  if (e.target.id === "promoFormOverlay") closePromoForm();
+});
+
+async function submitPromoForm(existingId){
+  const errEl = document.getElementById("promoFormError");
+  const payload = {
+    title: document.getElementById("promo_title").value.trim(),
+    tag: document.getElementById("promo_tag").value.trim(),
+    desc: document.getElementById("promo_desc").value.trim(),
+    code: document.getElementById("promo_code").value.trim() || null,
+    image: currentPromoImage,
+  };
+  if (!payload.title){ errEl.textContent = "Введите заголовок акции"; return; }
+
+  const submitBtn = document.getElementById("promoSubmit");
+  submitBtn.disabled = true; submitBtn.textContent = "Сохраняем…";
+  try{
+    if (existingId){
+      await apiPut(`/api/admin/promotions/${existingId}`, payload, true);
+      toast("Акция обновлена", "success");
+    } else {
+      await apiPost("/api/admin/promotions", payload, true);
+      toast("Акция добавлена", "success");
+    }
+    closePromoForm();
+    loadPromos();
+  } catch(e){
+    if (e.status === 401){ clearToken(); showLogin(); return; }
+    errEl.textContent = e.status === 413 ? "Баннер слишком большой — попробуйте другой" : "Не удалось сохранить акцию";
+    submitBtn.disabled = false; submitBtn.textContent = existingId ? "Сохранить" : "Добавить";
+  }
+}
+
+async function deletePromo(id){
+  const promo = promosCache.find(p=>p.id===id);
+  if (!confirm(`Удалить акцию «${promo?.title || id}»?`)) return;
+  try{
+    await apiDelete(`/api/admin/promotions/${id}`, true);
+    toast("Акция удалена", "success");
+    loadPromos();
+  } catch(e){
+    if (e.status === 401){ clearToken(); showLogin(); return; }
+    toast("Не удалось удалить акцию");
+  }
+}
 
 // ---------------------------------------------------------------------------
 // INIT

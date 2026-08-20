@@ -43,6 +43,7 @@ function createProduct(payload) {
     isNew: !!payload.isNew,
     tags: payload.tags || "",
     photoBg: payload.photoBg || "linear-gradient(135deg,#ffe3d1,#ffb199)",
+    image: payload.image || null, // base64 data URI аз боркунии панели админ, ё null — он гоҳ эмодзи+градиент истифода мешавад
   };
   products.push(product);
   writeJSON("products", products);
@@ -72,7 +73,47 @@ function listPromotions() { return readJSON("promotions", []); }
 function listDeliveryZones() { return readJSON("delivery-zones", []); }
 function listCities() { return readJSON("cities", []); }
 
+// ---- Акцияҳо (CRUD барои панели админ) ------------------------------------
+const PROMO_COLORS = ["var(--tomato)", "var(--wasabi)", "var(--salmon)", "var(--nori)"];
+
+function createPromotion(payload) {
+  const promotions = readJSON("promotions", []);
+  const id = "promo-" + Date.now().toString().slice(-8);
+  const promo = {
+    id,
+    title: payload.title || "Новая акция",
+    tag: payload.tag || "",
+    desc: payload.desc || "",
+    code: payload.code ? String(payload.code).toUpperCase() : null,
+    color: payload.color || PROMO_COLORS[promotions.length % PROMO_COLORS.length],
+    image: payload.image || null,
+  };
+  promotions.push(promo);
+  writeJSON("promotions", promotions);
+  return promo;
+}
+
+function updatePromotion(id, payload) {
+  const promotions = readJSON("promotions", []);
+  const idx = promotions.findIndex(p => p.id === id);
+  if (idx === -1) return null;
+  const next = { ...promotions[idx], ...payload, id: promotions[idx].id };
+  if (payload.code !== undefined) next.code = payload.code ? String(payload.code).toUpperCase() : null;
+  promotions[idx] = next;
+  writeJSON("promotions", promotions);
+  return promotions[idx];
+}
+
+function deletePromotion(id) {
+  const promotions = readJSON("promotions", []);
+  const next = promotions.filter(p => p.id !== id);
+  const removed = next.length !== promotions.length;
+  if (removed) writeJSON("promotions", next);
+  return removed;
+}
+
 module.exports = {
   listProducts, getProductById, createProduct, updateProduct, deleteProduct,
   listCategories, listAddonGroups, listPromotions, listDeliveryZones, listCities,
+  createPromotion, updatePromotion, deletePromotion,
 };
