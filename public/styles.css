@@ -582,3 +582,69 @@ img{ max-width:100%; display:block; }
 .promo-modal-banner{ height:180px; border-radius:24px 24px 0 0; overflow:hidden; }
 .promo-modal-banner img{ width:100%; height:100%; object-fit:cover; }
 @media (min-width:700px){ .promo-modal-banner{ border-radius:24px 24px 0 0; } }
+
+/* ---------------------------------------------------------------------- */
+/* АККАУНТИ КОРБАР (сабти ном, вуруд, кабинет)                             */
+/* ---------------------------------------------------------------------- */
+.auth-switch{ display:flex; gap:6px; background:var(--cream-2); padding:4px; border-radius:999px; margin-bottom:16px; }
+.auth-switch-btn{
+  flex:1; border:none; background:transparent; padding:9px 12px; border-radius:999px;
+  font-weight:700; font-size:.86rem; color:var(--text-soft); transition:all .15s;
+}
+.auth-switch-btn.active{ background:#fff; color:var(--ink); box-shadow:var(--shadow-sm); }
+.auth-lead{ font-size:.86rem; margin-bottom:16px; }
+
+.profile-section{ margin:20px 0; }
+.profile-section h4{ font-size:.9rem; margin-bottom:10px; }
+.profile-hint{ font-size:.82rem; color:var(--text-soft); margin:0; }
+.saved-addresses{ display:flex; flex-direction:column; gap:8px; }
+.saved-address{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:#fff; border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; font-size:.86rem;
+}
+
+.saved-address-picker{ margin-bottom:16px; }
+.saved-address-label{ display:block; font-size:.78rem; font-weight:700; color:var(--text-soft); margin-bottom:6px; }
+.saved-address-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+.saved-address-chip{
+  background:var(--cream); border:1.5px solid var(--line); border-radius:999px;
+  padding:8px 14px; font-size:.82rem; font-weight:600; color:var(--text);
+}
+.saved-address-chip:hover{ border-color:var(--ink); }
+
+.checkout-login-hint, .orders-guest-hint{
+  font-size:.82rem; background:var(--cream-2); padding:10px 14px; border-radius:10px; margin-bottom:14px;
+}
+.orders-guest-hint .link-more, .checkout-login-hint .link-more{ font-size:.82rem; }
+.order-card-loading{ text-align:center; color:var(--text-soft); font-size:.85rem; }
+
+/* ---------------------------------------------------------------------- */
+/* ИНТИХОБИ ЗАБОН (language switcher)                                      */
+/* ---------------------------------------------------------------------- */
+.lang-btn{ width:auto; gap:5px; padding:0 10px; font-weight:700; font-size:.78rem; }
+.lang-btn-code{ font-family:var(--font-mono); font-weight:700; letter-spacing:.02em; }
+
+.lang-menu{
+  position:fixed; z-index:700; background:#fff; border:1.5px solid var(--line);
+  border-radius:14px; padding:6px; box-shadow:var(--shadow-lg); min-width:170px;
+  opacity:0; pointer-events:none; transform:translateY(-6px); transition:all .18s ease;
+}
+.lang-menu.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.lang-option{
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left;
+  background:none; border:none; padding:10px 12px; border-radius:10px;
+  font-size:.88rem; font-weight:600; color:var(--text);
+}
+.lang-option:hover{ background:var(--cream); }
+.lang-option.active{ color:var(--ink); }
+.lang-option-short{
+  font-family:var(--font-mono); font-size:.72rem; font-weight:700;
+  background:var(--cream-2); padding:3px 7px; border-radius:6px; flex-shrink:0;
+}
+.lang-option.active .lang-option-short{ background:var(--ink); color:#fff; }
+.lang-check{ margin-left:auto; color:var(--wasabi-dark); font-weight:800; }
+
+@media (max-width:860px){
+  .lang-btn{ padding:0 8px; }
+  .lang-btn-code{ font-size:.72rem; }
+}

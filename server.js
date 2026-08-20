@@ -13,6 +13,8 @@ const auth = require("./utils/auth");
 const productsApi = require("./routes/products");
 const ordersApi = require("./routes/orders");
 const promoApi = require("./routes/promo");
+const usersApi = require("./routes/users");
+const userAuth = require("./utils/userAuth");
 
 function requireAdmin(req, res) {
   const token = auth.extractToken(req);
@@ -80,6 +82,65 @@ const server = http.createServer(async (req, res) => {
     if (orderMatch && method === "GET") {
       const order = ordersApi.getOrderById(orderMatch[1]);
       return order ? sendJSON(res, 200, order) : sendJSON(res, 404, { error: "Заказ не найден" });
+    }
+
+    // ---------------- Аккаунти корбар ----------------
+    if (pathname === "/api/auth/register" && method === "POST") {
+      const body = await readBody(req);
+      const result = usersApi.register(body);
+      if (!result.ok) return sendJSON(res, 400, { errors: result.errors });
+      return sendJSON(res, 201, { user: result.user, token: result.token });
+    }
+    if (pathname === "/api/auth/login" && method === "POST") {
+      const body = await readBody(req);
+      const result = usersApi.login(body);
+      if (!result.ok) return sendJSON(res, 401, { errors: result.errors });
+      return sendJSON(res, 200, { user: result.user, token: result.token });
+    }
+    if (pathname === "/api/auth/logout" && method === "POST") {
+      userAuth.revokeToken(userAuth.extractToken(req));
+      return sendJSON(res, 200, { ok: true });
+    }
+
+    // Роутҳои зерин токени корбарро талаб мекунанд
+    if (pathname.startsWith("/api/me")) {
+      const phone = userAuth.verifyToken(userAuth.extractToken(req));
+      if (!phone) return sendJSON(res, 401, { error: "Требуется вход в аккаунт" });
+
+      if (pathname === "/api/me" && method === "GET") {
+        const profile = usersApi.getProfile(phone);
+        return profile ? sendJSON(res, 200, profile) : sendJSON(res, 404, { error: "Пользователь не найден" });
+      }
+      if (pathname === "/api/me" && method === "PATCH") {
+        const body = await readBody(req);
+        const updated = usersApi.updateProfile(phone, body);
+        return updated ? sendJSON(res, 200, updated) : sendJSON(res, 404, { error: "Пользователь не найден" });
+      }
+      if (pathname === "/api/me/password" && method === "POST") {
+        const body = await readBody(req);
+        const result = usersApi.changePassword(phone, body);
+        if (!result.ok) return sendJSON(res, 400, { errors: result.errors });
+        return sendJSON(res, 200, { ok: true });
+      }
+      if (pathname === "/api/me/orders" && method === "GET") {
+        return sendJSON(res, 200, usersApi.getUserOrders(phone));
+      }
+      if (pathname === "/api/me/addresses" && method === "POST") {
+        const body = await readBody(req);
+        const updated = usersApi.saveAddress(phone, body);
+        return updated ? sendJSON(res, 200, updated) : sendJSON(res, 404, { error: "Пользователь не найден" });
+      }
+      const addrMatch = pathname.match(/^\/api\/me\/addresses\/([\w-]+)$/);
+      if (addrMatch && method === "DELETE") {
+        const updated = usersApi.deleteAddress(phone, addrMatch[1]);
+        return updated ? sendJSON(res, 200, updated) : sendJSON(res, 404, { error: "Пользователь не найден" });
+      }
+      if (pathname === "/api/me/favorites" && method === "PUT") {
+        const body = await readBody(req);
+        const updated = usersApi.setFavorites(phone, body.favorites);
+        return updated ? sendJSON(res, 200, updated) : sendJSON(res, 404, { error: "Пользователь не найден" });
+      }
+      return sendJSON(res, 404, { error: "Маршрут не найден" });
     }
 
     // ---------------- Admin: вход ----------------

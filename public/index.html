@@ -54,21 +54,26 @@
     </button>
 
     <nav class="main-nav" aria-label="Основная навигация">
-      <a href="#menu" data-nav="menu">Меню</a>
-      <a href="#promotions" data-nav="promotions">Акции</a>
-      <a href="#delivery" data-nav="delivery">Доставка</a>
-      <a href="#about" data-nav="about">О нас</a>
-      <a href="#contacts" data-nav="contacts">Контакты</a>
+      <a href="#menu" data-nav="menu" data-i18n="Меню">Меню</a>
+      <a href="#promotions" data-nav="promotions" data-i18n="Акции">Акции</a>
+      <a href="#delivery" data-nav="delivery" data-i18n="Доставка">Доставка</a>
+      <a href="#about" data-nav="about" data-i18n="О нас">О нас</a>
+      <a href="#contacts" data-nav="contacts" data-i18n="Контакты">Контакты</a>
     </nav>
 
     <div class="header-search" id="headerSearchWrap">
       <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 10-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/></svg>
-      <input type="search" id="searchInput" placeholder="Найти блюдо, например «лосось»">
+      <input type="search" id="searchInput" placeholder="Найти блюдо, например «лосось»" data-i18n-placeholder="Найти блюдо, например «лосось»">
     </div>
 
     <button class="icon-btn only-desktop" id="favBtnHeader" data-nav="favorites" aria-label="Избранное">
       <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.1C.5 8.6 2 5 5.6 5c2 0 3.3 1 4.4 2.4C11.1 6 12.4 5 14.4 5 18 5 19.5 8.6 22 11.9 19.5 16.4 12 21 12 21z" opacity=".9"/></svg>
       <span class="badge" id="favBadge" hidden>0</span>
+    </button>
+
+    <button class="icon-btn lang-btn" id="langBtn" aria-label="Язык" aria-haspopup="true">
+      <svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.9 6h-2.9a15.6 15.6 0 00-1.3-3.4A8 8 0 0118.9 8zM12 4c.7 1 1.3 2.4 1.7 4h-3.4c.4-1.6 1-3 1.7-4zM4.3 14A8 8 0 014 12c0-.7.1-1.4.3-2h3.3a17.6 17.6 0 000 4H4.3zm.8 2h2.9c.3 1.2.8 2.4 1.3 3.4A8 8 0 015.1 16zm2.9-8H5.1a8 8 0 014.2-3.4A15.6 15.6 0 008 8zm4 12c-.7-1-1.3-2.4-1.7-4h3.4c-.4 1.6-1 3-1.7 4zm2.1-6H9.9a15.7 15.7 0 010-4h4.2a15.7 15.7 0 010 4zm.6 5.4c.5-1 1-2.2 1.3-3.4h2.9a8 8 0 01-4.2 3.4zM16.4 14a17.6 17.6 0 000-4h3.3c.2.6.3 1.3.3 2s-.1 1.4-.3 2h-3.3z"/></svg>
+      <span class="lang-btn-code" id="langBtnCode">RU</span>
     </button>
 
     <button class="icon-btn only-desktop" id="profileBtnHeader" data-nav="profile" aria-label="Профиль">
@@ -77,7 +82,7 @@
 
     <button class="cart-btn" id="cartBtnHeader" aria-label="Корзина">
       <svg viewBox="0 0 24 24" width="19" height="19"><path fill="currentColor" d="M7 4h-2l-1 2H2v2h2l3.6 7.6-1.4 2.5c-.6 1.1.2 2.4 1.5 2.4h11v-2H8l1.1-2h6.6c.8 0 1.4-.4 1.8-1.1l3.2-6c.5-.9-.1-2-1.2-2H6.2l-.9-2zM7 20a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4z"/></svg>
-      <span>Корзина</span>
+      <span data-i18n="Корзина">Корзина</span>
       <span class="cart-btn-total" id="cartBtnTotal" hidden>0 ₽</span>
       <span class="badge cart-badge" id="cartBadge" hidden>0</span>
     </button>
@@ -85,7 +90,7 @@
 
   <div class="header-search mobile-search" id="mobileSearchWrap">
     <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 10-.7.7l.3.3v.8l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/></svg>
-    <input type="search" id="searchInputMobile" placeholder="Найти блюдо, например «лосось»">
+    <input type="search" id="searchInputMobile" placeholder="Найти блюдо, например «лосось»" data-i18n-placeholder="Найти блюдо, например «лосось»">
   </div>
 
   <div class="category-strip" id="categoryStrip" aria-label="Категории меню"></div>
@@ -100,15 +105,15 @@
     <button class="icon-btn" id="closeSideMenu" aria-label="Закрыть">✕</button>
   </div>
   <nav class="side-menu-nav">
-    <a href="#home" data-nav="home">Главная</a>
-    <a href="#menu" data-nav="menu">Меню</a>
-    <a href="#promotions" data-nav="promotions">Акции</a>
-    <a href="#delivery" data-nav="delivery">Доставка</a>
-    <a href="#favorites" data-nav="favorites">Избранное</a>
-    <a href="#profile" data-nav="profile">Личный кабинет</a>
-    <a href="#orders" data-nav="orders">История заказов</a>
-    <a href="#about" data-nav="about">О компании</a>
-    <a href="#contacts" data-nav="contacts">Контакты</a>
+    <a href="#home" data-nav="home" data-i18n="Главная">Главная</a>
+    <a href="#menu" data-nav="menu" data-i18n="Меню">Меню</a>
+    <a href="#promotions" data-nav="promotions" data-i18n="Акции">Акции</a>
+    <a href="#delivery" data-nav="delivery" data-i18n="Доставка">Доставка</a>
+    <a href="#favorites" data-nav="favorites" data-i18n="Избранное">Избранное</a>
+    <a href="#profile" data-nav="profile" data-i18n="Личный кабинет">Личный кабинет</a>
+    <a href="#orders" data-nav="orders" data-i18n="История заказов">История заказов</a>
+    <a href="#about" data-nav="about" data-i18n="О компании">О компании</a>
+    <a href="#contacts" data-nav="contacts" data-i18n="Контакты">Контакты</a>
   </nav>
   <div class="side-menu-foot">
     <a href="tel:+74951234567">+7 (495) 123-45-67</a>
@@ -132,21 +137,21 @@
       </div>
     </div>
     <div class="footer-col">
-      <h4>Меню</h4>
+      <h4 data-i18n="Меню">Меню</h4>
       <a href="#category-rolls" data-nav="category" data-cat="rolls">Роллы</a>
       <a href="#category-pizza" data-nav="category" data-cat="pizza">Пицца</a>
       <a href="#category-sets" data-nav="category" data-cat="sets">Сеты</a>
       <a href="#category-wok" data-nav="category" data-cat="wok">WOK</a>
     </div>
     <div class="footer-col">
-      <h4>Информация</h4>
-      <a href="#delivery" data-nav="delivery">Доставка и оплата</a>
-      <a href="#promotions" data-nav="promotions">Акции</a>
-      <a href="#about" data-nav="about">О компании</a>
-      <a href="#contacts" data-nav="contacts">Контакты</a>
+      <h4 data-i18n="Информация">Информация</h4>
+      <a href="#delivery" data-nav="delivery" data-i18n="Доставка и оплата">Доставка и оплата</a>
+      <a href="#promotions" data-nav="promotions" data-i18n="Акции">Акции</a>
+      <a href="#about" data-nav="about" data-i18n="О компании">О компании</a>
+      <a href="#contacts" data-nav="contacts" data-i18n="Контакты">Контакты</a>
     </div>
     <div class="footer-col">
-      <h4>Контакты</h4>
+      <h4 data-i18n="Контакты">Контакты</h4>
       <a href="tel:+74951234567">+7 (495) 123-45-67</a>
       <a href="mailto:hello@sushipizzatime.ru">hello@sushipizzatime.ru</a>
       <span>Москва и Московская область</span>
@@ -163,31 +168,31 @@
 <nav class="bottom-nav" id="bottomNav" aria-label="Быстрая навигация">
   <a href="#home" data-nav="home" class="bn-item">
     <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
-    <span>Главная</span>
+    <span data-i18n="Главная">Главная</span>
   </a>
   <a href="#menu" data-nav="menu" class="bn-item">
     <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M4 4h4v16H4zM10 4h2v7h-2zM11 13v7h1v-7zM15 4c-1.7 0-3 2-3 4.5S13.3 13 15 13v7h2V4z"/></svg>
-    <span>Меню</span>
+    <span data-i18n="Меню">Меню</span>
   </a>
   <a href="#promotions" data-nav="promotions" class="bn-item">
     <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M20 12l-2-2.2.3-3-3-.7L13.7 3 12 4.3 10.3 3 8.7 6.1l-3 .6.3 3L4 12l2 2.2-.3 3 3 .7L10.3 21l1.7-1.3L13.7 21l1.6-3.1 3-.6-.3-3zM10 8.5a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM9 16l6-8 1 .7-6 8z"/></svg>
-    <span>Акции</span>
+    <span data-i18n="Акции">Акции</span>
   </a>
   <a href="#cart" data-nav="cart" class="bn-item">
     <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M7 4h-2l-1 2H2v2h2l3.6 7.6-1.4 2.5c-.6 1.1.2 2.4 1.5 2.4h11v-2H8l1.1-2h6.6c.8 0 1.4-.4 1.8-1.1l3.2-6c.5-.9-.1-2-1.2-2H6.2l-.9-2zM7 20a2 2 0 100 4 2 2 0 000-4zm10 0a2 2 0 100 4 2 2 0 000-4z"/></svg>
-    <span>Корзина</span>
+    <span data-i18n="Корзина">Корзина</span>
     <span class="bn-badge" id="bnCartBadge" hidden>0</span>
   </a>
   <a href="#profile" data-nav="profile" class="bn-item">
     <svg viewBox="0 0 24 24" width="21" height="21"><path fill="currentColor" d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-4.4 0-8 2.7-8 6v1h16v-1c0-3.3-3.6-6-8-6z"/></svg>
-    <span>Профиль</span>
+    <span data-i18n="Профиль">Профиль</span>
   </a>
 </nav>
 
 <!-- ================= STICKY MINI CART (mobile) ================= -->
 <button class="sticky-cart" id="stickyCart" hidden>
   <span class="sticky-cart-count" id="stickyCartCount">1</span>
-  <span>Корзина</span>
+  <span data-i18n="Корзина">Корзина</span>
   <span id="stickyCartTotal">0 ₽</span>
 </button>
 
@@ -217,12 +222,16 @@
   <div class="modal address-modal" id="addressModal" role="dialog" aria-modal="true"></div>
 </div>
 
+<!-- ================= LANGUAGE MENU ================= -->
+<div class="lang-menu" id="langMenu" role="menu"></div>
+
 <!-- ================= LOADING SCREEN ================= -->
 <div id="loadingScreen" class="loading-screen">
   <div class="loading-mark">寿</div>
   <p id="loadingText">Загружаем меню…</p>
 </div>
 
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
