@@ -648,3 +648,14 @@ img{ max-width:100%; display:block; }
   .lang-btn{ padding:0 8px; }
   .lang-btn-code{ font-size:.72rem; }
 }
+
+/* ---------------------------------------------------------------------- */
+/* ЛЕНТАИ АКЦИЯҲО ДАР БОЛОИ МЕНЮ (мисли Додо)                              */
+/* ---------------------------------------------------------------------- */
+.promo-scroll-menu{ margin-bottom:22px; padding-top:4px; }
+.promo-scroll-menu .promo-card{ width:230px; }
+
+@media (max-width:600px){
+  .promo-scroll-menu{ margin-bottom:16px; }
+  .promo-scroll-menu .promo-card{ width:200px; }
+}

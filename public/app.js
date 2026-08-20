@@ -502,18 +502,7 @@ function viewHome(){
       <h2>${t("Акции")}</h2>
       <button class="link-more" data-action="go" data-view="promotions">${t("Все акции →")}</button>
     </div>
-    <div class="promo-scroll">
-      ${promotions.map(promo=>`
-        <button class="promo-card ${promo.image?'promo-card-has-img':''}" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
-          ${promo.image ? `<span class="promo-card-img"><img src="${promo.image}" alt="${escapeHtml(promo.title)}"></span>` : ""}
-          <span class="promo-card-content">
-            <span class="promo-tag">${promo.tag}</span>
-            <strong>${promo.title}</strong>
-            ${promo.code ? `<span class="promo-code">Промокод: ${promo.code}</span>` : `<span class="promo-code">${t("Автоматически")}</span>`}
-          </span>
-        </button>
-      `).join("")}
-    </div>
+    ${promoStrip()}
   </section>
 
   <section class="section">
@@ -571,6 +560,7 @@ function viewMenu(catId){
   const list = productsForCategory(catId);
   return `
   <section class="section menu-page">
+    ${promoStrip()}
     <div class="menu-tabs" id="menuTabs">
       ${CATEGORIES.map(c=>`
         <button class="menu-tab ${c.id===catId?'active':''}" data-action="go-category" data-cat="${c.id}">
@@ -579,10 +569,28 @@ function viewMenu(catId){
     </div>
     <div class="section-head">
       <h2>${CATEGORIES.find(c=>c.id===catId)?.emoji || ''} ${catName(catId)}</h2>
-      <span class="count-pill">${list.length} блюд</span>
+      <span class="count-pill">${list.length} ${t("блюд")}</span>
     </div>
     ${productGrid(list)}
   </section>`;
+}
+
+// Лентаи акцияҳо — ҳам дар саҳифаи асосӣ ва ҳам дар болои меню истифода мешавад
+function promoStrip(){
+  if (!promotions.length) return "";
+  return `
+    <div class="promo-scroll promo-scroll-menu">
+      ${promotions.map(promo=>`
+        <button class="promo-card ${promo.image?'promo-card-has-img':''}" style="--accent:${promo.color}" data-action="open-promo" data-id="${promo.id}">
+          ${promo.image ? `<span class="promo-card-img"><img src="${promo.image}" alt="${escapeHtml(promo.title)}"></span>` : ""}
+          <span class="promo-card-content">
+            <span class="promo-tag">${escapeHtml(promo.tag||"")}</span>
+            <strong>${escapeHtml(promo.title)}</strong>
+            ${promo.code ? `<span class="promo-code">${t("Промокод")}: ${promo.code}</span>` : `<span class="promo-code">${t("Автоматически")}</span>`}
+          </span>
+        </button>
+      `).join("")}
+    </div>`;
 }
 
 function afterRenderMenu(){
